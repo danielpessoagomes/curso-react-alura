@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component, useState } from 'react';
 import './App.css';
+import Tabela from './Tabela';
+import ContaClicks from './ContaClicks';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  state = {
+    categorias: [
+      {
+        codigo: 1,
+        descricao: "Honorário mensal"
+      },
+      {
+        codigo: 2,
+        descricao: "Honorário vencido"
+      },
+      {
+        codigo: 3,
+        descricao: "Honorário extra"
+      },
+      {
+        codigo: 4,
+        descricao: "Imposto de Renda"
+      },
+    ]
+  };
+
+  removerCategoria = index => {
+
+    const { categorias } = this.state;
+
+    this.setState(
+      {
+        categorias : categorias.filter((categoria, posAtual) => {
+          return posAtual !== index;
+        }),
+      }
+    );
+
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <Tabela categorias={ this.state.categorias} removerCategoria = { this.removerCategoria } />
+        <ContaClicks />
+      </div>
+    );
+  }
+
 }
 
 export default App;
