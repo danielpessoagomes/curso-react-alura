@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import FormValidator from './FormValidator';
 
 class Formulario extends Component {
 
     constructor(props) {
         super(props);
+
+        this.validador = new FormValidator({
+            campo:'descricao',
+            metodo:'isEmpty'
+        });
 
         this.stateInicial = {
             codigo: '',
@@ -22,8 +28,11 @@ class Formulario extends Component {
     }
 
     submitFormulario = () => {
-        this.props.escutadorDeSubmit(this.state);
-        this.setState(this.stateInicial);
+        if (this.validador.valida(this.state)) {
+            this.props.escutadorDeSubmit(this.state);
+            this.setState(this.stateInicial);
+        }
+
     }
 
     render() {

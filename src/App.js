@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import './App.css';
 import Tabela from './Tabela';
-import ContaClicks from './ContaClicks';
 import Form from './Formulario';
 import Header from './Header';
 
@@ -55,7 +54,6 @@ class App extends Component {
           <Tabela categorias={this.state.categorias} removerCategoria={this.removerCategoria} />
           <Form escutadorDeSubmit={this.escutadorDeSubmit} />
         </div>
-        <ContaClicks />
       </Fragment>
     );
   }
