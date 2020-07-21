@@ -1,7 +1,10 @@
-import React, { Component, useState } from 'react';
+import React, { Component, Fragment } from 'react';
+import 'materialize-css/dist/css/materialize.min.css';
 import './App.css';
 import Tabela from './Tabela';
 import ContaClicks from './ContaClicks';
+import Form from './Formulario';
+import Header from './Header';
 
 class App extends Component {
 
@@ -32,7 +35,7 @@ class App extends Component {
 
     this.setState(
       {
-        categorias : categorias.filter((categoria, posAtual) => {
+        categorias: categorias.filter((categoria, posAtual) => {
           return posAtual !== index;
         }),
       }
@@ -40,12 +43,20 @@ class App extends Component {
 
   };
 
+  escutadorDeSubmit = categoria => {
+    this.setState({ categorias: [...this.state.categorias, categoria] })
+  }
+
   render() {
     return (
-      <div className="App">
-        <Tabela categorias={ this.state.categorias} removerCategoria = { this.removerCategoria } />
+      <Fragment>
+        <Header />
+        <div className="container mb-10">
+          <Tabela categorias={this.state.categorias} removerCategoria={this.removerCategoria} />
+          <Form escutadorDeSubmit={this.escutadorDeSubmit} />
+        </div>
         <ContaClicks />
-      </div>
+      </Fragment>
     );
   }
 

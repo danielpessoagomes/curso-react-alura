@@ -18,7 +18,7 @@ const TableBody = props => {
             <tr key={index}>
                 <td>{linha.codigo}</td>
                 <td>{linha.descricao}</td>
-                <td><button onClick = { () => { props.removerCategoria(index) }}>Remover</button></td>
+                <td><button onClick = { () => { props.removerCategoria(index) }} className="waves-effect waves-light btn indigo lighten-2">Remover</button></td>
             </tr>
         )
     });
@@ -36,7 +36,7 @@ class Tabela extends Component {
         const { categorias, removerCategoria } = this.props;
 
         return (
-            <table>
+            <table className="centered highlight">
                 <TableHead />
                 <TableBody categorias={categorias} removerCategoria={removerCategoria} />
             </table>
