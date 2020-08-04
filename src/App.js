@@ -4,46 +4,57 @@ import './App.css';
 import Tabela from './Tabela';
 import Form from './Formulario';
 import Header from './Header';
+import PopUp from './PopUp';
+import ApiService from './ApiService';
 
 class App extends Component {
 
-  state = {
-    categorias: [
-      {
-        codigo: 1,
-        descricao: "Honorário mensal"
-      },
-      {
-        codigo: 2,
-        descricao: "Honorário vencido"
-      },
-      {
-        codigo: 3,
-        descricao: "Honorário extra"
-      },
-      {
-        codigo: 4,
-        descricao: "Imposto de Renda"
-      },
-    ]
-  };
+  constructor(props) {
+    super(props)
 
-  removerCategoria = index => {
+    this.state = {
+      bancos: []
+    };
+  }
 
-    const { categorias } = this.state;
+  removerBanco = codigo => {
+    const { bancos } = this.state;
 
     this.setState(
       {
-        categorias: categorias.filter((categoria, posAtual) => {
-          return posAtual !== index;
+        bancos: bancos.filter((banco) => {
+          return banco.codigo !== codigo;
         }),
       }
     );
-
+    PopUp.exibeMensagem('error', 'Banco excluído com sucesso');
+    ApiService.removeBanco(codigo)
   };
 
-  escutadorDeSubmit = categoria => {
-    this.setState({ categorias: [...this.state.categorias, categoria] })
+  escutadorDeSubmit = banco => {
+    console.log(banco);
+
+    const b = {
+      codigo: null,
+      nome: banco.nome,
+      saldo: banco.saldo,
+      dataSaldo: new Date()
+    }
+
+    ApiService.criaBanco(JSON.stringify(b))
+    .then(res => res)
+    .then(banco => {
+      console.log('THEN', banco);
+      this.setState({ bancos: [...this.state.bancos, banco] })
+      PopUp.exibeMensagem('success', 'Banco adicionado com sucesso');
+    })
+  }
+
+  componentDidMount() {
+    ApiService.ListaBancos()
+      .then(res => {
+        this.setState({ bancos: [...this.state.bancos, ...res.content] })
+      })
   }
 
   render() {
@@ -51,8 +62,9 @@ class App extends Component {
       <Fragment>
         <Header />
         <div className="container mb-10">
-          <Tabela categorias={this.state.categorias} removerCategoria={this.removerCategoria} />
           <Form escutadorDeSubmit={this.escutadorDeSubmit} />
+          <h1>Bancos</h1>
+          <Tabela bancos={this.state.bancos} removerBanco={this.removerBanco} />
         </div>
       </Fragment>
     );

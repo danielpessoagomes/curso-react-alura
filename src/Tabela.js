@@ -5,20 +5,22 @@ const TableHead = () => {
         <thead>
             <tr>
                 <th>Código</th>
-                <th>Descricão</th>
-                <th>Remover</th>
+                <th>Nome</th>
+                <th>Saldo</th>
             </tr>
         </thead>
     );
 }
 
 const TableBody = props => { 
-    const linhas  = props.categorias.map((linha, index) => {
+    console.log(props.bancos);
+    const linhas  = props.bancos.map((linha) => {
         return (
-            <tr key={index}>
+            <tr key={linha.codigo}>
                 <td>{linha.codigo}</td>
-                <td>{linha.descricao}</td>
-                <td><button onClick = { () => { props.removerCategoria(index) }} className="waves-effect waves-light btn indigo lighten-2">Remover</button></td>
+                <td>{linha.nome}</td>
+                <td>{linha.saldo}</td>
+                <td><button onClick = { () => { props.removerBanco(linha.codigo) }} className="waves-effect waves-light btn indigo lighten-2">Remover</button></td>
             </tr>
         )
     });
@@ -33,12 +35,12 @@ const TableBody = props => {
 class Tabela extends Component {
     render() {
 
-        const { categorias, removerCategoria } = this.props;
+        const { bancos, removerBanco } = this.props;
 
         return (
             <table className="centered highlight">
                 <TableHead />
-                <TableBody categorias={categorias} removerCategoria={removerCategoria} />
+                <TableBody bancos={bancos} removerBanco={removerBanco} />
             </table>
         )
     }
