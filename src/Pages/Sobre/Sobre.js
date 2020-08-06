@@ -1,13 +1,13 @@
 import React, { Fragment} from 'react';
-import Header from './Header';
+import Header from '../../Components/Header/Header';
 
-const Lancamento = () => {
+const Sobre = () => {
     return(
         <Fragment>
             <Header />
-            <h1>Lançamento</h1>
+            <h1>Sobre</h1>
         </Fragment>
     );
 }
 
-export default Lancamento;
+export default Sobre;

@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import NotFound from './NotFound';
-import Sobre from './Sobre';
-import Lancamento from './Lancamento';
+import Home from './Pages/Home/Home';
+import NotFound from './Pages/NotFound/NotFound';
+import Sobre from './Pages/Sobre/Sobre';
+import Lancamento from './Pages/Lancamentos/Lancamento';
 import * as serviceWorker from './serviceWorker';
 
 
@@ -14,8 +14,8 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Switch>
-        <Route path='/' exact={true} component={App} />
-        <Route path='/categorias' component={App} />
+        <Route path='/' exact={true} component={Home} />
+        <Route path='/banco' component={Home} />
         <Route path='/sobre' component={Sobre} />
         <Route path='/lancamento' component={Lancamento} />
         <Route component={NotFound} />

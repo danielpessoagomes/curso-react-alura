@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
-import './App.css';
-import Tabela from './Tabela';
-import Form from './Formulario';
-import Header from './Header';
-import PopUp from './PopUp';
-import ApiService from './ApiService';
+import './Home.css';
+import Tabela from '../../Components/Tabela/Tabela';
+import Form from '../../Components/Formulario/Formulario';
+import Header from '../../Components/Header/Header';
+import PopUp from '../../Utils/PopUp';
+import ApiService from '../../Utils/ApiService';
 
 class App extends Component {
 
@@ -20,19 +20,20 @@ class App extends Component {
   removerBanco = codigo => {
     const { bancos } = this.state;
 
-    this.setState(
-      {
-        bancos: bancos.filter((banco) => {
-          return banco.codigo !== codigo;
-        }),
-      }
-    );
-    PopUp.exibeMensagem('error', 'Banco excluído com sucesso');
+    const bancosAtualizado = bancos.filter(banco => {
+      return banco.codigo !== codigo;
+    })
     ApiService.removeBanco(codigo)
+      .then(res => {
+        this.setState({bancos : [...bancosAtualizado]})
+        PopUp.exibeMensagem('error', 'Banco excluído com sucesso');
+      })
+      .catch(err => {
+        PopUp.exibeMensagem('error', 'Erro na comunicação ao tentar API')
+      });
   };
 
   escutadorDeSubmit = banco => {
-    console.log(banco);
 
     const b = {
       codigo: null,
@@ -42,12 +43,12 @@ class App extends Component {
     }
 
     ApiService.criaBanco(JSON.stringify(b))
-    .then(res => res)
-    .then(banco => {
-      console.log('THEN', banco);
-      this.setState({ bancos: [...this.state.bancos, banco] })
-      PopUp.exibeMensagem('success', 'Banco adicionado com sucesso');
+    .then(res => {
+      console.log(res)
+      this.setState({bancos:[...this.state.bancos, banco]});
+      PopUp.exibeMensagem("success", "Banco criado com sucesso");
     })
+    .catch(err => PopUp.exibeMensagem("error", "Erro ao tentar cadastrar o banco"))
   }
 
   componentDidMount() {

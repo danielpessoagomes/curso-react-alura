@@ -7,13 +7,13 @@ const TableHead = () => {
                 <th>Código</th>
                 <th>Nome</th>
                 <th>Saldo</th>
+                <th></th>
             </tr>
         </thead>
     );
 }
 
 const TableBody = props => { 
-    console.log(props.bancos);
     const linhas  = props.bancos.map((linha) => {
         return (
             <tr key={linha.codigo}>
